@@ -1,4 +1,8 @@
-
+/**
+ * Sarah Sullivan
+ * 20-2-2018
+ * 1 period Sos
+ */
 import java.util.Scanner;
 
 public class TTTComputer {
