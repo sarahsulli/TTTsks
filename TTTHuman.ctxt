@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment1.params=n
+comment1.target=boolean\ ifSameRow(int)
+comment2.params=n
+comment2.target=boolean\ ifSameCol(int)
+comment3.params=n
+comment3.target=boolean\ ifSameDiagoal1(int)
+comment4.params=n
+comment4.target=boolean\ ifSameDiagoal2(int)
+comment5.params=n
+comment5.target=void\ showOriginalBoard(int)
+comment6.params=n
+comment6.target=void\ showBoard(int)
+comment7.params=n
+comment7.target=void\ player1Game(int)
+comment8.params=n
+comment8.target=void\ player2Game(int)
+comment9.params=i\ j\ n
+comment9.target=boolean\ isSafe(int,\ int,\ int)
+numComments=10
