@@ -4,6 +4,7 @@
  * 1 period Sos
  */
 import java.util.Scanner;
+import java.util.Random;
 
 public class TTTComputer {
     public static String originalBoard[][];
@@ -12,6 +13,12 @@ public class TTTComputer {
     private static boolean gameOver = false;
     private static  long input=0;
     private static long mult;
+    private static int computerRow;
+    private static int computerCol;
+    static boolean winVert = false;    
+    Random rand = new Random();
+    private static int randX;
+    private static int randY;
 
     public static void main(String[] args) {
         System.out.println("please enter size of board (n)");
@@ -23,21 +30,24 @@ public class TTTComputer {
         mult = n * n;
         originalBoard = new String[n + 1][n + 1];
         showOriginalBoard(n);
-        player1Game(n);
+        p1Game(n);
     }
 
     private static boolean ifSameRow(int n) {
         boolean sameRow1 = false;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= n - 1; j++) {
-                if (originalBoard[i][j].equals(originalBoard[i][j + 1])) {
+        for (int row = 1; row <= n; row++) 
+        {
+            for (int col = 1; col <= n - 1; col++) 
+            {
+                if (originalBoard[row][col].equals(originalBoard[row][col + 1])) {
                     sameRow1 = true;
                 } else {
                     sameRow1 = false;
                     break;
                 }
             }
-            if (sameRow1 == true) {
+            if (sameRow1 == true) 
+            {
                 return true;
             }
         }
@@ -61,6 +71,27 @@ public class TTTComputer {
         }
         return false;
     }
+
+    private void ifwWinVert(int n, int computerRow,int computerCol) 
+    {
+        for (int row = 1; row <= n; row++) 
+        {
+            for (int col = 1; col <= n - 2; col++) 
+            {
+                if (originalBoard[col][row].equals(originalBoard[col + 1][row])
+                && (isSafe(row, col +2, n))) 
+                {
+                    computerRow = row;
+                    computerCol = col;
+                    winVert = true;
+                } 
+                else 
+                {
+                    winVert = false;
+                }
+            }          
+        }    
+    }  
 
     private static boolean ifSameDiagoal1(int n) {
         boolean sameDiag = false;
@@ -116,7 +147,7 @@ public class TTTComputer {
         }
     }
 
-    private static void player1Game(int n) {
+    private static void p1Game(int n) {
         if (input == mult) {
             gameOver = true;
             System.out.println("It's a draw!");
@@ -136,67 +167,82 @@ public class TTTComputer {
                     input++;
                     showBoard(n);
                     if ((ifSameRow(n) == true) || ((ifSameCol(n) == true))
-                    || (ifSameDiagoal1(n) == true) || (ifSameDiagoal2(n) == true)) {
+                    || (ifSameDiagoal1(n) == true) || (ifSameDiagoal2(n) == true)) 
+                    {
                         System.out.println("Player 1 wins!");
-
-                    } else {
-                        computerGame(n);
+                    } 
+                    else 
+                    {
+                        computerGame(n, computerRow, computerCol);
                     }
 
                 } else {
                     System.out.println("That spot is taken");
                     showBoard(n);
-                    player1Game(n);
+                    p1Game(n);
                 }
             } else {
                 System.out.println("Out of bounds");
                 showBoard(n);
-                player1Game(n);
+                p1Game(n);
+            }
+        }
+    }    
+
+    public void setRandInput(int n) 
+    {
+        boolean placed = false;
+        int randXTest = rand.nextInt(n);
+        int randYTest = rand.nextInt(n);
+        if (isSafe(randX, randY, n)) 
+        {
+            if (!(originalBoard[randXTest][randYTest].equals("X  "))
+            && !(originalBoard[randXTest][randYTest]
+                .equals("O  "))
+            && (countX == countO || (countX == (countO + 1)))) {
+                randX = randXTest;
+                randY = randYTest;
             }
         }
     }
 
-    private static void computerGame(int n) {
+    private static void computerGame(int n, int computerRow,int computerCol ) {
         if (input == mult) {
             gameOver = true;
             System.out.println("It's a draw!");
         }
+
         if (gameOver == false) {
-            System.out.println("\n --player 12's turn--");
-            System.out.println("please select any place on board in order of number on board {x,y} PICK (X) FIRST, THEN (Y)");
-            int computerRow = scan.nextInt();
-            int computercol = scan.nextInt();
-            if (isSafe(computerRow, computercol, n)) {
-                if (!(originalBoard[computerRow][computercol].equals("X  "))
-                && !(originalBoard[computerRow][computercol]
-                    .equals("O  "))
-                && (countX == countO || (countX == (countO + 1)))) {
-                    originalBoard[computerRow][computercol] = "O  ";
-                    countO++;
-                    input++;
-                    showBoard(n);
-                    if ((ifSameRow(n) == true) || ((ifSameCol(n) == true))
-                    || (ifSameDiagoal1(n) == true) || (ifSameDiagoal2(n) == true)) {
-                        System.out.println("Player 2 wins!");
-
-                    } else {
-                        player1Game(n);
-                    }
-
-                } else {
-                    System.out.println("That spot is taken");
-                    showBoard(n);
-                    computerGame(n);
-                }
-            } else {
-                System.out.println("Out of bounds");
+            System.out.println("\n --computer's turn--");
+            System.out.println("the computer should be picking rn");
+            if (winVert==false){
+                originalBoard[computerRow][computerCol] = "O  ";
+                countO++;
+                input++;
                 showBoard(n);
-                computerGame(n);
+                if ((ifSameRow(n) == true) || ((ifSameCol(n) == true))
+                || (ifSameDiagoal1(n) == true) || (ifSameDiagoal2(n) == true)) {
+                    System.out.println("Player 2 wins!");
+                } 
+                else 
+                {
+                    p1Game(n);
+                }                   
+            }
+
+            else
+            {
+                originalBoard[randX][randY] = "O  ";
+                countO++;
+                input++;
+                showBoard(n);
+                p1Game(n);
             }
         }
     }
 
-    private static boolean isSafe(int i, int j, int n) {
+    private static boolean isSafe(int i, int j, int n) 
+    {
         return (i >= 1 && i <= n && j >= 1 && j <= n);
     }
 }

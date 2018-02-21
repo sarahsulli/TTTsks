@@ -139,16 +139,20 @@ public class TTTHuman {
                     || (ifSameDiagoal1(n) == true) || (ifSameDiagoal2(n) == true)) {
                         System.out.println("Player 1 wins!");
 
-                    } else {
+                    } 
+                    else 
+                    {
                         player2Game(n);
                     }
 
-                } else {
+                } 
+                else {
                     System.out.println("That spot is taken");
                     showBoard(n);
                     player1Game(n);
                 }
-            } else {
+            } 
+            else {
                 System.out.println("Out of bounds");
                 showBoard(n);
                 player1Game(n);
